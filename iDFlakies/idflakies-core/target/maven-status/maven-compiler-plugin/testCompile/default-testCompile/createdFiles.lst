@@ -1,0 +1,9 @@
+edu/illinois/cs/dt/samples/ExampleMinimizeClassA.class
+edu/illinois/TuscanOnlyClassTest.class
+edu/illinois/cs/dt/samples/ExampleHasFlakyTests.class
+edu/illinois/cs/dt/samples/ExampleTimeoutTests.class
+edu/illinois/cs/dt/samples/ExampleMinimizeClassB.class
+edu/illinois/TuscanInterClassTest.class
+edu/illinois/TuscanTest.class
+edu/illinois/TuscanIntraClassTest.class
+com/fake/example/test/TestPollutionDetection.class
