@@ -17,6 +17,7 @@ import edu.illinois.cs.dt.tools.detection.TestShuffler;
 import edu.illinois.cs.dt.tools.detection.filters.ConfirmationFilter;
 import edu.illinois.cs.dt.tools.detection.filters.UniqueFilter;
 import edu.illinois.cs.dt.tools.runner.InstrumentingSmartRunner;
+import edu.illinois.cs.testrunner.configuration.Configuration;
 import edu.illinois.cs.testrunner.data.results.TestRunResult;
 import edu.illinois.cs.testrunner.runner.Runner;
 import edu.illinois.starts.helpers.Writer;
@@ -67,7 +68,9 @@ public class TuscanOnlyClassDetector extends ExecutingDetector {
             addFilter(new ConfirmationFilter(name, tests, InstrumentingSmartRunner.fromRunner(runner, baseDir)));
         }
         addFilter(new UniqueFilter());
-        for (int i = 0; i < num_of_order; i ++) {
+        num_of_order = Integer.parseInt(Configuration.config().getProperty("dt.detector.rounds.endIndex", num_of_order + ""));
+        int i = Integer.parseInt(Configuration.config().getProperty("dt.detector.rounds.startIndex", "0"));;
+        for (; i < num_of_order; i ++) {
             List<String> order = testShuffler.tuscanIntraClassOrder(i);
             writeOrder(order, baseDir + "/.dtfixingtools", i);
         }

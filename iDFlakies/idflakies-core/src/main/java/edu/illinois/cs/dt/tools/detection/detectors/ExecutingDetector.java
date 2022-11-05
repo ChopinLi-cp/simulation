@@ -43,7 +43,7 @@ public abstract class ExecutingDetector implements Detector, VerbosePrinter {
     public ExecutingDetector(final Runner runner, final File baseDir, final int rounds, final String name) {
         this.runner = runner;
         this.baseDir = baseDir;
-        this.rounds = rounds;
+        this.rounds = Integer.parseInt(Configuration.config().getProperty("dt.detector.rounds.endIndex", rounds + ""));
         this.name = name;
     }
 
@@ -106,7 +106,7 @@ public abstract class ExecutingDetector implements Detector, VerbosePrinter {
         private long previousStopTimeMs = System.currentTimeMillis();
         private boolean roundsAreTotal = Boolean.parseBoolean(Configuration.config().getProperty("dt.detector.roundsemantics.total", "true"));
 
-        private int i = 0;
+        private int i = Integer.parseInt(Configuration.config().getProperty("dt.detector.rounds.startIndex", "0"));
 
         private final List<DependentTest> result = new ArrayList<>();
 
