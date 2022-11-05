@@ -22,6 +22,7 @@ import edu.illinois.cs.dt.tools.runner.InstrumentingSmartRunner;
 import edu.illinois.cs.dt.tools.utility.Tuscan;
 import edu.illinois.cs.testrunner.data.results.TestRunResult;
 import edu.illinois.cs.testrunner.runner.Runner;
+import edu.illinois.starts.helpers.Writer;
 
 public class TuscanInterClassDetector extends ExecutingDetector {
     private final List<String> tests;
@@ -83,9 +84,10 @@ public class TuscanInterClassDetector extends ExecutingDetector {
         }
         this.tests = tests;
         // START -- Temporary addition for experiments
-	String s = Integer.toString(this.rounds);
+        int num_of_order = this.rounds;
+        String s = Integer.toString(this.rounds);
         writeTo(baseDir + "/.dtfixingtools/num-of-orders", s);
-	System.out.println("CALCULATED ROUNDS: " + this.rounds);
+	    System.out.println("CALCULATED ROUNDS: " + this.rounds);
         this.rounds = 0;
         // END -- Temporary addition for experiments
         this.testShuffler = new TestShuffler(type, this.rounds, tests, baseDir);
@@ -96,6 +98,10 @@ public class TuscanInterClassDetector extends ExecutingDetector {
             addFilter(new ConfirmationFilter(name, tests, InstrumentingSmartRunner.fromRunner(runner, baseDir)));
         }
         addFilter(new UniqueFilter());
+        for (int i = 0; i < num_of_order; i ++) {
+            List<String> order = testShuffler.tuscanIntraClassOrder(i);
+            writeOrder(order, baseDir + "/.dtfixingtools", i);
+        }
     }
 
     public void writeTo(final String outputPath, String output) {
@@ -111,6 +117,20 @@ public class TuscanInterClassDetector extends ExecutingDetector {
                     StandardOpenOption.APPEND);
         } catch (IOException e) {
             e.printStackTrace(System.err);
+        }
+    }
+
+    private void writeOrder(List<String> order, String artifactsDir, int index) {
+        String outFilename = Paths.get(artifactsDir + "/orders", "order-" + index).toString();
+        try (BufferedWriter writer = Writer.getWriter(outFilename)) {
+            for (String test : order) {
+                int i = this.tests.indexOf(test);
+                String s = Integer.toString(i);
+                writer.write(s);
+                writer.write(System.lineSeparator());
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
     }
 
