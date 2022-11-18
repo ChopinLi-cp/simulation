@@ -86,6 +86,7 @@ public class TuscanInterClassDetector extends ExecutingDetector {
         this.tests = tests;
         // START -- Temporary addition for experiments
         int num_of_order = this.rounds;
+				int tmp_num = num_of_order;
         String s = Integer.toString(this.rounds);
         writeTo(baseDir + "/.dtfixingtools/num-of-orders", s);
 	    System.out.println("CALCULATED ROUNDS: " + this.rounds);
@@ -100,9 +101,12 @@ public class TuscanInterClassDetector extends ExecutingDetector {
         }
         addFilter(new UniqueFilter());
         num_of_order = Integer.parseInt(Configuration.config().getProperty("dt.detector.rounds.endIndex", num_of_order + ""));
-        int i = Integer.parseInt(Configuration.config().getProperty("dt.detector.rounds.startIndex", "0"));;
+        if (num_of_order > tmp_num) {
+						num_of_order = tmp_num;
+				}
+				int i = Integer.parseInt(Configuration.config().getProperty("dt.detector.rounds.startIndex", "0"));;
         for (; i < num_of_order; i ++) {
-            List<String> order = testShuffler.tuscanIntraClassOrder(i);
+            List<String> order = testShuffler.tuscanInterClass(i);
             writeOrder(order, baseDir + "/.dtfixingtools", i);
         }
     }
@@ -114,7 +118,9 @@ public class TuscanInterClassDetector extends ExecutingDetector {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+        } else {
+						return;
+				}
         try {
             Files.write(Paths.get(outputPath), output.getBytes(StandardCharsets.UTF_8),
                     StandardOpenOption.APPEND);
@@ -125,7 +131,10 @@ public class TuscanInterClassDetector extends ExecutingDetector {
 
     private void writeOrder(List<String> order, String artifactsDir, int index) {
         String outFilename = Paths.get(artifactsDir + "/orders", "order-" + index).toString();
-        try (BufferedWriter writer = Writer.getWriter(outFilename)) {
+        if (Files.exists(Paths.get(artifactsDir + "/orders", "order-" + index))) {
+						return;
+				}
+				try (BufferedWriter writer = Writer.getWriter(outFilename)) {
             for (String test : order) {
                 int i = this.tests.indexOf(test);
                 String s = Integer.toString(i);

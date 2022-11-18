@@ -55,10 +55,11 @@ public class TuscanOnlyClassDetector extends ExecutingDetector {
         this.tests = tests;
         // START -- Temporary addition for experiments
         int num_of_order = this.rounds;
-        String s = Integer.toString(this.rounds);
+        int tmp_num = num_of_order;
+				String s = Integer.toString(this.rounds);
         writeTo(baseDir + "/.dtfixingtools/num-of-orders", s);
-	    System.out.println("CALCULATED ROUNDS: " + this.rounds);
-	    this.rounds = 0;
+	    	System.out.println("CALCULATED ROUNDS: " + this.rounds);
+	    	this.rounds = 0;
         // END -- Temporary addition for experiments
         this.testShuffler = new TestShuffler(type, this.rounds, tests, baseDir);
         this.origResult = DetectorUtil.originalResults(tests, runner);
@@ -69,7 +70,10 @@ public class TuscanOnlyClassDetector extends ExecutingDetector {
         }
         addFilter(new UniqueFilter());
         num_of_order = Integer.parseInt(Configuration.config().getProperty("dt.detector.rounds.endIndex", num_of_order + ""));
-        int i = Integer.parseInt(Configuration.config().getProperty("dt.detector.rounds.startIndex", "0"));;
+        if (num_of_order > tmp_num) {
+						num_of_order = tmp_num;
+				}
+				int i = Integer.parseInt(Configuration.config().getProperty("dt.detector.rounds.startIndex", "0"));;
         for (; i < num_of_order; i ++) {
             List<String> order = testShuffler.tuscanIntraClassOrder(i);
             writeOrder(order, baseDir + "/.dtfixingtools", i);

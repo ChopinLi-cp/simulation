@@ -230,7 +230,9 @@ public class DetectorMojo extends AbstractIDFlakiesMojo {
         runners = removeZombieRunners(runners, mavenProject);
 
         if (runners.size() != 1) {
-            if (forceJUnit4) {
+					boolean forceJUnit4 = Configuration.config().getProperty("dt.detector.forceJUnit4", false);
+          System.out.println("forceJUnit4: " + forceJUnit4);  
+					if (forceJUnit4) {
                 Runner nrunner = null;
                 for (Runner runner : runners) {
                     if (runner.framework().toString() == "JUnit") {
