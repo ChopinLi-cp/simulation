@@ -240,6 +240,28 @@ public class TestShuffler {
         }
         return fullTestOrder;
     }
+    
+    public List<String> OriginalAndTuscanOrder(int count, boolean isTuscan) {
+        List<String> classes = new ArrayList<>(classToMethods.keySet());
+        Collections.sort(classes);
+        final List<String> fullTestOrder = new ArrayList<>();
+        if (isTuscan) {
+            int n = classes.size();
+            int[][] res = Tuscan.generateTuscanPermutations(n);
+            List<String> permClasses = new ArrayList<String>();
+            for (int i = 0; i < res[count].length - 1; i++) {
+                permClasses.add(classes.get(res[count][i]));
+            }
+            for (String className : permClasses) {
+                fullTestOrder.addAll(classToMethods.get(className));
+            }
+        } else {
+            for (String className : classes) {
+                fullTestOrder.addAll(classToMethods.get(className));
+            }
+        }
+        return fullTestOrder;
+    }
 
     public List<String> tuscanIntraClassOrder(int round) {
         List<String> classes = new ArrayList<>(classToMethods.keySet());
@@ -287,8 +309,11 @@ public class TestShuffler {
         Collections.sort(classes);
         final List<String> fullTestOrder = new ArrayList<>();
         int n = classes.size(); // n is number of classes
+        // If we have only one class, return the original order as a single round
+        if (n == 1) {
+            return OriginalAndTuscanOrder(round, false);
+        }
         int[][] classOrdering = Tuscan.generateTuscanPermutations(n);
-
         for (String className : classes) {
             int methodSize = classToMethods.get(className).size();
             int[][] result;
@@ -338,7 +363,13 @@ public class TestShuffler {
         }
         String currentClass = permClasses.get(i1), nextClass = permClasses.get(i2);
         int currentClassMethodSize = classToMethods.get(currentClass).size();
+        if (currentClassMethodSize == 3 || currentClassMethodSize == 5) {
+            currentClassMethodSize++;
+        }
         int nextClassMethodSize = classToMethods.get(nextClass).size();
+        if (nextClassMethodSize == 3 || nextClassMethodSize == 5) {
+            nextClassMethodSize++;
+        }
         if (currentClassMethodSize == interCurrentMethodRound && nextClassMethodSize == (interNextMethodRound + 1)) {
             // To change the pair so we change i1 & i2
             i1++;
