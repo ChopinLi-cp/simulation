@@ -59,9 +59,9 @@ public class TuscanInterClassDetector extends ExecutingDetector {
                 String current = classes.get(classPermutations[i][j]);
                 String next = classes.get(classPermutations[i][j + 1]);
                 int size1 = classToMethods.get(current).size();
-                if (size1 == 3 || size1 == 5) {size1 += 1;}
+                // if (size1 == 3 || size1 == 5) {size1 += 1;}
                 int size2 = classToMethods.get(next).size();
-                if (size2 == 3 || size2 == 5) {size2 += 1;}
+                // if (size2 == 3 || size2 == 5) {size2 += 1;}
                 methodSize += (size1 * size2);
             }
             tempRounds += methodSize;
@@ -109,7 +109,7 @@ public class TuscanInterClassDetector extends ExecutingDetector {
 				int i = Integer.parseInt(Configuration.config().getProperty("dt.detector.rounds.startIndex", "0"));;
         for (; i < num_of_order; i ++) {
             List<String> order = testShuffler.tuscanInterClass(i);
-            writeOrder(order, baseDir + "/.dtfixingtools", i);
+            // writeOrder(order, baseDir + "/.dtfixingtools", i);
         }
     }
 

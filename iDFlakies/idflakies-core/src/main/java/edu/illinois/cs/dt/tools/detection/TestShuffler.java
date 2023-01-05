@@ -320,7 +320,7 @@ public class TestShuffler {
             if (methodSize == 3) {
 
                 int[][] methodPermuation = {
-                    { 0, 1, 2, 0},
+                    // { 0, 1, 2, 0},
                     { 1, 0, 2, 0},
                     { 2, 1, 0, 0},
                     { 2, 0, 1, 0}
@@ -334,8 +334,8 @@ public class TestShuffler {
                     {1,0,2,4,3, 0},
                     {2,0,3,1,4, 0},
                     {3,4,0,2,1, 0},
-                    {4,2,1,3,0, 0},
-                    {0,1,2,3,4, 0}
+                    {4,2,1,3,0, 0} //,
+                    // {0,1,2,3,4, 0}
                 };
                 result = methodPermuation;
 
@@ -363,13 +363,13 @@ public class TestShuffler {
         }
         String currentClass = permClasses.get(i1), nextClass = permClasses.get(i2);
         int currentClassMethodSize = classToMethods.get(currentClass).size();
-        if (currentClassMethodSize == 3 || currentClassMethodSize == 5) {
+        /* if (currentClassMethodSize == 3 || currentClassMethodSize == 5) {
             currentClassMethodSize++;
-        }
+        } */
         int nextClassMethodSize = classToMethods.get(nextClass).size();
-        if (nextClassMethodSize == 3 || nextClassMethodSize == 5) {
+        /* if (nextClassMethodSize == 3 || nextClassMethodSize == 5) {
             nextClassMethodSize++;
-        }
+        } */
         if (currentClassMethodSize == interCurrentMethodRound && nextClassMethodSize == (interNextMethodRound + 1)) {
             // To change the pair so we change i1 & i2
             i1++;
