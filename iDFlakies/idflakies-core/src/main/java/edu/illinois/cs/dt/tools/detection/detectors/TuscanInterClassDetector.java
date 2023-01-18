@@ -109,7 +109,7 @@ public class TuscanInterClassDetector extends ExecutingDetector {
 				int i = Integer.parseInt(Configuration.config().getProperty("dt.detector.rounds.startIndex", "0"));;
         for (; i < num_of_order; i ++) {
             List<String> order = testShuffler.tuscanInterClass(i);
-            // writeOrder(order, baseDir + "/.dtfixingtools", i);
+            writeOrder(order, baseDir + "/.dtfixingtools", i);
         }
     }
 

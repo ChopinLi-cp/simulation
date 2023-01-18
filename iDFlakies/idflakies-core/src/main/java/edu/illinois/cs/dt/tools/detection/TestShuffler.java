@@ -277,9 +277,10 @@ public class TestShuffler {
         HashMap<String, List<String>> newClassToMethods = new HashMap<String, List<String>>();
         List<String> permClasses = new ArrayList<String>();
         int classRound = round;
-        while ((classOrdering.length - 1) < classRound) {
+        /* while ((classOrdering.length - 1) < classRound) {
             classRound -= classOrdering.length;
-        }
+        } */
+	classRound = classRound % classOrdering.length;
         for (int i = 0; i < classOrdering[classRound].length - 1; i++) {
             permClasses.add(classes.get(classOrdering[classRound][i]));
         }
@@ -289,9 +290,10 @@ public class TestShuffler {
             int[][] currMethodOrdering = classToPermutations.get(className);
             n = methods.size();
             int methodRound = round;
-            while((currMethodOrdering.length - 1) < methodRound) {
+            /* while((currMethodOrdering.length - 1) < methodRound) {
                 methodRound -= currMethodOrdering.length;
-            }
+            } */
+	    methodRound = methodRound % currMethodOrdering.length;
             for (int i = 0; i < currMethodOrdering[methodRound].length - 1; i++) {
                 permMethods.add(methods.get(currMethodOrdering[methodRound][i]));
             }
